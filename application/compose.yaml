@@ -1,0 +1,27 @@
+
+services:
+  redis:
+    image: 'redislabs/redismod'
+    ports:
+      - '6379:6379'
+  benna:
+    restart: on-failure
+    build: ./web
+    hostname: benna
+    ports:
+      - '81:5000'
+  srikanth:
+    restart: on-failure
+    build: ./web
+    hostname: srikanth
+    ports:
+      - '82:5000'
+  nginx:
+    build: ./nginx
+    ports:
+    - '80:80'
+    depends_on:
+    - benna
+    - srikanth
+
+
