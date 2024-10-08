@@ -1,0 +1,28 @@
+service : # to start the docker compose file
+ app: #name of the docker container
+  build: . # to build the docker image
+  ports: # to map the ports
+    - "5000:5000"
+  app2: #name of the docker container
+   image: python:3.8 # importing the image
+   ports: # to map the ports
+     - "5001:5001"
+   volumes: # to map the volumes
+     - .:/app
+   command: python app.py # to run the python file
+   depends_on: # to run the app2 after app
+     - app
+    docker compose up -d # to run the docker compose file in the background
+    docker compose down # to stop the docker compose file
+    docker build -t app . # to build the docker image
+    docker run -p 5000:5000 app # to run the docker image
+    docker exec -it app python app.py # to run the python file in the docker container
+    docker logs app # to see the logs of the docker container
+    # docker yml file
+    FROM: python:3.8 # to import the image
+    WORKDIR: /app # to set the working directory
+    COPY: requirements.txt . # to copy the requirements.txt file
+    RUN: pip install -r requirements.txt # to install the requirements
+    COPY: . . # to copy the files
+    CMD: python app.py # to run the python file
+    
